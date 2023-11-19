@@ -3,6 +3,9 @@ var banner_img = page.banner_img || theme.index.banner_img
 var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_img_height)
 var banner_mask_alpha = parseFloat(page.banner_mask_alpha || theme.index.banner_mask_alpha)
 var subtitle = page.subtitle || page.title
+var subtitle_text_width = 0
+for (var i = 0, len = subtitle.length; i < len; ++i) subtitle_text_width += subtitle.charCodeAt(i) < 256 ? 1 : 2
+var subtitle_font_size = `min(1.5rem ,calc(130vw / ${subtitle_text_width}))`
 %>
 
 <div id="banner" class="banner" <%- theme.banner && theme.banner.parallax && 'parallax=true' %>
@@ -12,9 +15,9 @@ var subtitle = page.subtitle || page.title
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           <% if(theme.fun_features.typing.enable && in_scope(theme.fun_features.typing.scope)) { %>
-            <span id="subtitle" data-typed-text="<%= subtitle %>"></span>
+            <span id="subtitle" data-typed-text="<%= subtitle %>" style="font-size: <%= subtitle_font_size %>;"></span>
           <% } else { %>
-            <span id="subtitle"><%- subtitle %></span>
+            <span id="subtitle" style="font-size: <%= subtitle_font_size %>;"><%- subtitle %></span>
           <% } %>
         </div>
 
