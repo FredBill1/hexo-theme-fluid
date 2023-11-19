@@ -4,8 +4,9 @@ var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_
 var banner_mask_alpha = parseFloat(page.banner_mask_alpha || theme.index.banner_mask_alpha)
 var subtitle = page.subtitle || page.title
 var subtitle_text_width = 0
-for (var i = 0, len = subtitle.length; i < len; ++i) subtitle_text_width += subtitle.charCodeAt(i) < 256 ? 1 : 2
-var subtitle_font_size = `min(1.5rem ,calc(130vw / ${subtitle_text_width}))`
+if (subtitle)
+  for (var i = 0, len = subtitle.length; i < len; ++i) subtitle_text_width += subtitle.charCodeAt(i) < 256 ? 1 : 2
+var subtitle_font_size = `min(2rem ,calc(130vw / ${subtitle_text_width ? subtitle_text_width : 1}))`
 %>
 
 <div id="banner" class="banner" <%- theme.banner && theme.banner.parallax && 'parallax=true' %>
@@ -18,6 +19,41 @@ var subtitle_font_size = `min(1.5rem ,calc(130vw / ${subtitle_text_width}))`
             <span id="subtitle" data-typed-text="<%= subtitle %>" style="font-size: <%= subtitle_font_size %>;"></span>
           <% } else { %>
             <span id="subtitle" style="font-size: <%= subtitle_font_size %>;"><%- subtitle %></span>
+          <% } %>
+          <% if(!subtitle) { %>
+            <script>
+              const subtitle_elem = document.getElementById('subtitle');
+              const spellcards = [
+                "表象「列祖列宗入梦来」",
+                "表象「弹幕偏执症」",
+                "本能「本我的解放」",
+                "抑制「Super Ego」",
+                "反应「妖怪测谎机」",
+                "无意识「弹幕的墨迹测验」",
+                "复燃「恋爱的埋火」",
+                "深层「无意识的基因」",
+                "「被厌恶者的哲学」",
+                "「Subterranean Rose」",
+                "心符「没我之爱」",
+                "记忆「DNA的瑕疵」",
+                "「胎儿之梦」",
+                "「蔷薇地狱」",
+                "梦符「先祖大人在看着你」",
+                "＊现在就给你打电话别忘了接哦＊",
+                "「Perfect Mind Control」",
+                "地灵符「Mind Stellar Relief」",
+              ];
+              const text = spellcards[Math.floor(Math.random() * spellcards.length)];
+              <% if(theme.fun_features.typing.enable && in_scope(theme.fun_features.typing.scope)) { %>
+                subtitle_elem.setAttribute('data-typed-text', text);
+              <% } else { %>
+                subtitle_elem.innerHTML = text;
+              <% } %>
+              let subtitle_text_width = 0;
+              for (let i = 0, len = text.length; i < len; ++i) subtitle_text_width += text.charCodeAt(i) < 256 ? 1 : 2;
+              const subtitle_font_size = `min(2rem ,calc(130vw / ${subtitle_text_width}))`;
+              subtitle_elem.style.fontSize = subtitle_font_size;
+            </script>
           <% } %>
         </div>
 
