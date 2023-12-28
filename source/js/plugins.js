@@ -142,11 +142,11 @@ Fluid.plugins = {
 
       if (enableCopy) {
         var clipboard = new ClipboardJS('.copy-btn', {
-          target: function(trigger) {
+          text: function(trigger) {
             var nodes = trigger.parentNode.childNodes;
             for (var i = 0; i < nodes.length; i++) {
               if (nodes[i].tagName === 'CODE') {
-                return nodes[i];
+                return nodes[i].innerText;
               }
             }
           }
